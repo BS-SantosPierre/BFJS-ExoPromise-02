@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&family=Dancing+Script:wght@700&display=swap');
+	</style>
+	<link rel="stylesheet" href="./styles/style.css">
+</head>
+<body>
+	<h1>Users Posts</h1>
+	<select id="user-select">
+		<option value="">Choose User</option>
+	</select>
+	<article id="posts">
+		<h3>Select user to fetch posts</h3>
+	</article>
+	<script src="./scripts/jquery.js"></script>
+	<script>
+		$(document).ready(() => {
+			$.ajax({
+				method: "GET",
+				url: 'https://jsonplaceholder.typicode.com/users'
+			}).done((users) => {
+				// Récupération des utilisateurs
+				$.each(users, (i, user) => {
+					// Ajout des users dans le select
+					$("#user-select").append(`<option value="${user.id}">${user.name}</option>`)
+				});
+			}).fail(err => {
+				// Erreur de base => 400 : Bad Request , 401: Unauthenticate, 403: Forbidden, 404: Not Found
+				$('#user-select').empty();
+				$('#user-select').append(`<option value="" disabled>Cannot get users</option>`);
+			})
+
+			// Select un nom, il faut récupérer les posts
+			$('#user-select').change((e) => {
+				const userID = $(e.currentTarget).val();
+				// Gestion du cas de l'user vide
+				if (!userID) {
+					$('#posts').empty();
+					$('#posts').append('<h3>Select user to fetch posts</h3>');
+					return;
+				}
+				// Récupérer les posts
+				$.ajax({
+					method: 'GET',
+					url: `https://jsonplaceholder.typicode.com/users/${userID}/posts`
+				}).done((posts) => {
+					$('#posts').empty();
+					$.each(posts, (i, post) => {
+						$('#posts').append(`
+							<article>
+								<h2>${post.title}</h2>
+								<p>${post.body}</p>
+							</article>
+						`)
+					})
+				}).fail((err) => {
+					$('#posts').empty();
+					$('#posts').append(`<h3>${err.status}</h3>`);
+					$('#posts').append(`<p>${err.statusText}</p>`);
+				})
+			})
+		});
+	</script>
+</body>
+</html>

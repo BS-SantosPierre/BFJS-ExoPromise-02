@@ -1,0 +1,104 @@
+body {
+	font-family: 'Dancing Script', cursive;
+}
+h1 {
+	font-size: 3.5rem;
+}
+
+h2 {
+	font-size: 3rem;
+	text-transform: capitalize;
+}
+
+h3 {
+	font-size: 2rem;
+	margin-bottom: 0;
+	text-transform: capitalize;
+}
+
+p {
+	font-size: 1.5rem;
+}
+
+.center {
+	text-align: center;
+}
+
+button {
+	font-size: 1.5rem;
+	font-family: 'Amatic SC', cursive;
+	cursor: pointer;
+	background-color: transparent;
+	border: 1px transparent solid;
+}
+
+button::after {
+	display: block;
+	content: '';
+	border-bottom: solid 2px black;
+	transform: scaleX(0);
+	transition: transform 250ms ease-in-out;
+	visibility: hidden;
+}
+
+button:hover::after {
+	visibility: visible;
+	transform: scaleX(1);
+}
+
+
+/* SPINNER */
+.lds-heart {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  transform: rotate(45deg);
+  transform-origin: 40px 40px;
+}
+.lds-heart div {
+  top: 32px;
+  left: 32px;
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background: #dc2626;
+  animation: lds-heart 1.2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.lds-heart div:after,
+.lds-heart div:before {
+  content: " ";
+  position: absolute;
+  display: block;
+  width: 32px;
+  height: 32px;
+  background: #dc2626;
+}
+.lds-heart div:before {
+  left: -24px;
+  border-radius: 50% 0 0 50%;
+}
+.lds-heart div:after {
+  top: -24px;
+  border-radius: 50% 50% 0 0;
+}
+@keyframes lds-heart {
+  0% {
+    transform: scale(0.95);
+  }
+  5% {
+    transform: scale(1.1);
+  }
+  39% {
+    transform: scale(0.85);
+  }
+  45% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(0.9);
+  }
+}
